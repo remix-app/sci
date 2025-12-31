@@ -54,14 +54,14 @@ export default function Dashboard() {
         </div>
 
         {/* Alert Banner */}
-        <Card className="border-yellow-500 bg-yellow-50 dark:bg-yellow-950">
+        <Card className="border-yellow-500 bg-yellow-50">
           <CardContent className="pt-6">
             <div className="flex items-center gap-2">
-              <AlertCircle className="h-5 w-5 text-yellow-800 dark:text-yellow-200" />
-              <span className="text-yellow-800 dark:text-yellow-200">
+              <AlertCircle className="h-5 w-5 text-yellow-800" />
+              <span className="text-yellow-800">
                 Valida que eres Arrendatario de esta propiedad y alíneate con la ley de copropiedad.
               </span>
-              <Button variant="link" className="text-yellow-800 dark:text-yellow-200">
+              <Button variant="link" className="text-yellow-800">
                 Ir a validar
               </Button>
             </div>
@@ -139,25 +139,14 @@ export default function Dashboard() {
                       ${data.amount.toLocaleString()}
                     </span>
                   </div>
-                  <div className="h-8 w-full rounded-md bg-muted">
+                  <div className="h-8 w-full rounded-md bg-gray-100">
                     <div
-                      className="h-full rounded-md bg-primary transition-all"
+                      className="h-full rounded-md bg-blue-600 transition-all"
                       style={{ width: `${(data.amount / maxAmount) * 100}%` }}
                     />
                   </div>
                 </div>
               ))}
-            </div>
-            <div className="mt-4 flex gap-2">
-              <Button variant="outline" size="sm">
-                Comparar
-              </Button>
-              <Button variant="outline" size="sm">
-                Cartola
-              </Button>
-              <Button variant="outline" size="sm">
-                Ranking de morosidad
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -173,12 +162,12 @@ export default function Dashboard() {
               {recentPublications.map((pub) => (
                 <div
                   key={pub.id}
-                  className="flex items-start gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50 cursor-pointer"
+                  className="flex items-start gap-4 rounded-lg border p-4 transition-colors hover:bg-gray-50 cursor-pointer"
                 >
-                  <MessageSquare className="mt-1 h-5 w-5 text-muted-foreground" />
+                  <MessageSquare className="mt-1 h-5 w-5 text-gray-400" />
                   <div className="flex-1 space-y-1">
                     <p className="font-medium">{pub.title}</p>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
                       <Badge variant="secondary">{pub.category}</Badge>
                       <span>{pub.date}</span>
                     </div>
@@ -186,9 +175,6 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
-            <Button variant="link" className="mt-4">
-              Ir a publicaciones →
-            </Button>
           </CardContent>
         </Card>
       </div>

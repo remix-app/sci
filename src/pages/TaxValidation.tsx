@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { useTranslation } from "react-i18next";
 import { CheckCircle, AlertCircle, Loader2, Search } from "lucide-react";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { toast } from "sonner";
 
 export default function TaxValidation() {
@@ -15,7 +15,7 @@ export default function TaxValidation() {
   const [validationResult, setValidationResult] = useState<any>(null);
 
   const validateMutation = trpc.integrations.validateTaxId.useMutation({
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       setValidationResult(data);
       if (data.isValid) {
         toast.success(t("rut_valid", "RUT válido"));
@@ -23,7 +23,7 @@ export default function TaxValidation() {
         toast.error(data.message);
       }
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast.error(error.message);
     }
   });
@@ -38,14 +38,10 @@ export default function TaxValidation() {
   };
 
   const formatRUT = (value: string) => {
-    // Remover caracteres no numéricos excepto guión y K
     let cleaned = value.replace(/[^\d\-K]/gi, "").toUpperCase();
-
-    // Si no tiene guión, agregarlo antes del último carácter
     if (!cleaned.includes("-") && cleaned.length > 1) {
       cleaned = cleaned.slice(0, -1) + "-" + cleaned.slice(-1);
     }
-
     return cleaned;
   };
 
@@ -70,7 +66,7 @@ export default function TaxValidation() {
               <Input
                 placeholder="12.345.678-9"
                 value={rut}
-                onChange={(e) => setRut(formatRUT(e.target.value))}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setRut(formatRUT(e.target.value))}
                 disabled={validateMutation.isPending}
               />
               <p className="text-xs text-muted-foreground">
@@ -111,7 +107,7 @@ export default function TaxValidation() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">{t("status", "Estado")}</p>
-                  <Badge className={validationResult.isValid ? "bg-green-500" : "bg-red-500"}>
+                  <Badge variant={validationResult.isValid ? "success" : "destructive"}>
                     {validationResult.isValid ? t("valid", "Válido") : t("invalid", "Inválido")}
                   </Badge>
                 </div>
@@ -120,37 +116,9 @@ export default function TaxValidation() {
                   <p className="font-mono font-semibold">{rut}</p>
                 </div>
               </div>
-
-              {validationResult.isValid && (
-                <div className="pt-4 border-t space-y-2">
-                  <p className="text-sm font-semibold">{t("next_steps", "Próximos pasos")}</p>
-                  <ul className="text-sm space-y-1 text-muted-foreground">
-                    <li>✓ {t("rut_verified", "RUT verificado correctamente")}</li>
-                    <li>✓ {t("can_proceed", "Puedes proceder con las transacciones")}</li>
-                    <li>✓ {t("documents_valid", "Documentos tributarios válidos")}</li>
-                  </ul>
-                </div>
-              )}
             </CardContent>
           </Card>
         )}
-
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("about_rut", "Acerca del RUT")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm text-muted-foreground">
-            <p>
-              {t("rut_explanation", "El RUT (Rol Único Tributario) es el identificador único de contribuyentes en Chile.")}
-            </p>
-            <p>
-              {t("rut_format_info", "Está compuesto por 7 u 8 dígitos seguidos de un dígito verificador (0-9 o K).")}
-            </p>
-            <p>
-              {t("rut_validation_info", "La validación se realiza según el algoritmo oficial del SII chileno.")}
-            </p>
-          </CardContent>
-        </Card>
       </div>
     </DashboardLayout>
   );

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Menu, X, Home, Settings, LogOut } from 'lucide-react'
 import { Button } from './ui/button'
 
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
   return (
